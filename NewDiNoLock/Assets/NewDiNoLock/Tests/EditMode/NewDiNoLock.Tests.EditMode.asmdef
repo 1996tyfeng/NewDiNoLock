@@ -3,6 +3,8 @@
     "rootNamespace": "NewDiNoLock.Tests.EditMode",
     "references": [
         "NewDiNoLock.Infrastructure",
+        "NewDiNoLock.Core",
+        "NewDiNoLock.Rendering",
         "NewDiNoLock.System",
         "NewDiNoLock.Bootstrap"
     ],

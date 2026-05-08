@@ -1,0 +1,17 @@
+{
+    "name": "NewDiNoLock.Core",
+    "rootNamespace": "NewDiNoLock.Core",
+    "references": [
+        "NewDiNoLock.Infrastructure",
+        "NewDiNoLock.Rendering"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
