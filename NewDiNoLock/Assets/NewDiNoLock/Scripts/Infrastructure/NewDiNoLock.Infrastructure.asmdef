@@ -1,0 +1,14 @@
+{
+    "name": "NewDiNoLock.Infrastructure",
+    "rootNamespace": "NewDiNoLock.Infrastructure",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+
+# Unity generated folders
+NewDiNoLock/[Ll]ibrary/
+NewDiNoLock/[Tt]emp/
+NewDiNoLock/[Oo]bj/
+NewDiNoLock/[Bb]uild/
+NewDiNoLock/[Bb]uilds/
+NewDiNoLock/[Ll]ogs/
+NewDiNoLock/[Uu]ser[Ss]ettings/
+NewDiNoLock/MemoryCaptures/
+NewDiNoLock/Recordings/
+
+# Unity generated files
+NewDiNoLock/*.csproj
+NewDiNoLock/*.sln
+NewDiNoLock/*.suo
+NewDiNoLock/*.tmp
+NewDiNoLock/*.user
+NewDiNoLock/*.userprefs
+NewDiNoLock/*.pidb
+NewDiNoLock/*.booproj
+NewDiNoLock/*.svd
+NewDiNoLock/*.pdb
+NewDiNoLock/*.mdb
+NewDiNoLock/sysinfo.txt
+
+# Unity asset store tools
+NewDiNoLock/Assets/AssetStoreTools*
+
+# Crash reports
+NewDiNoLock/[Cc]rash[Rr]eports/
+
+# Local MCP/runtime noise
+mcp/node_modules/
+mcp/.env
+NewDiNoLock/Assets/Plugins/UnityMCPPlugin/mcp_connection_report.txt
+NewDiNoLock/Assets/Plugins/UnityMCPPlugin/mcp_connection_report.txt.meta

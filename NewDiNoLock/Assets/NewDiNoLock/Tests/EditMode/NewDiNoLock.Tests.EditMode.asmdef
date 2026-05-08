@@ -1,0 +1,23 @@
+{
+    "name": "NewDiNoLock.Tests.EditMode",
+    "rootNamespace": "NewDiNoLock.Tests.EditMode",
+    "references": [
+        "NewDiNoLock.Infrastructure",
+        "NewDiNoLock.System",
+        "NewDiNoLock.Bootstrap"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "noEngineReferences": false
+}

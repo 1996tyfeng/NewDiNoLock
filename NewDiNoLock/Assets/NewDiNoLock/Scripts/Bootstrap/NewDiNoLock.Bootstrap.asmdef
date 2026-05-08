@@ -1,0 +1,17 @@
+{
+    "name": "NewDiNoLock.Bootstrap",
+    "rootNamespace": "NewDiNoLock.Bootstrap",
+    "references": [
+        "NewDiNoLock.Infrastructure",
+        "NewDiNoLock.System"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
