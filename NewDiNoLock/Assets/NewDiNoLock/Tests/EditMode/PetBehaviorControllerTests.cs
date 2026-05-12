@@ -46,7 +46,19 @@ namespace NewDiNoLock.Tests.EditMode
         }
 
         [Test]
-        public void BeginDrag_PlaysLiftAnimation_AndEndDragReturnsToIdle()
+        public void EndWalk_WhenWalking_ReturnsToIdle()
+        {
+            _controller.RequestWalk("auto walk");
+
+            var changed = _controller.EndWalk("arrived");
+
+            Assert.IsTrue(changed);
+            Assert.AreEqual(PetState.Idle, _controller.CurrentState);
+            Assert.AreEqual(AnimationName.Idle, _animationPlayer.CurrentAnimation);
+        }
+
+        [Test]
+        public void BeginDrag_PlaysLiftAnimation_AndEndDragPlaysDropAnimation()
         {
             _controller.BeginDrag("drag start");
 
@@ -58,7 +70,8 @@ namespace NewDiNoLock.Tests.EditMode
 
             Assert.IsTrue(changed);
             Assert.AreEqual(PetState.Idle, _controller.CurrentState);
-            Assert.AreEqual(AnimationName.Idle, _animationPlayer.CurrentAnimation);
+            Assert.AreEqual(AnimationName.Drop, _animationPlayer.CurrentAnimation);
+            Assert.IsFalse(_animationPlayer.LastLoopValue);
         }
 
         [Test]

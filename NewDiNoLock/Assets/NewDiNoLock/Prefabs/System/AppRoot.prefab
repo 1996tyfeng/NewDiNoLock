@@ -45,3 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6f4b17f4604b9fa127ce7ac99d540e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultPetPrefab: {fileID: 100000, guid: a6cc4f8b1b6840e7a15c503738d6e4a1, type: 3}
+  _spawnDefaultPetIfMissing: 1
+  _createCameraIfMissing: 1
+  _rightClickMenuPrefab: {fileID: 2929355990351892183, guid: 000016f75abedb942a0eb589ed953ee5, type: 3}

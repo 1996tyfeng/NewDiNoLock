@@ -19,6 +19,9 @@ namespace NewDiNoLock.Rendering
         private SpriteRenderer _spriteRenderer;
 
         [SerializeField]
+        private Animator _animator;
+
+        [SerializeField]
         private List<AnimationEntry> _animations = new List<AnimationEntry>
         {
             new AnimationEntry { name = AnimationName.Idle, color = new Color(0.56f, 0.82f, 0.72f), scale = Vector3.one },
@@ -41,6 +44,7 @@ namespace NewDiNoLock.Rendering
         private void Awake()
         {
             EnsureSpriteRenderer();
+            EnsureAnimator();
             RebuildLookup();
             _baseScale = transform.localScale;
             ApplyAnimation(GetFallbackAnimationName(AnimationName.Idle));
@@ -60,6 +64,7 @@ namespace NewDiNoLock.Rendering
         public void Play(string animationName, bool loop = false)
         {
             EnsureSpriteRenderer();
+            EnsureAnimator();
             EnsureLookupReady();
             ApplyAnimation(GetFallbackAnimationName(animationName));
         }
@@ -123,6 +128,14 @@ namespace NewDiNoLock.Rendering
             }
         }
 
+        private void EnsureAnimator()
+        {
+            if (_animator == null)
+            {
+                _animator = GetComponent<Animator>();
+            }
+        }
+
         private string GetFallbackAnimationName(string requestedAnimation)
         {
             if (HasAnimation(requestedAnimation))
@@ -165,6 +178,68 @@ namespace NewDiNoLock.Rendering
 
             _spriteRenderer.color = entry.color;
             transform.localScale = Vector3.Scale(_baseScale, entry.scale);
+            PlayAnimatorState(animationName);
+        }
+
+        private void PlayAnimatorState(string animationName)
+        {
+            if (_animator == null || _animator.runtimeAnimatorController == null)
+            {
+                return;
+            }
+
+            var stateName = ResolveAnimatorStateName(animationName);
+            if (!TryGetAnimatorStateHash(stateName, out var stateHash))
+            {
+                return;
+            }
+
+            _animator.Play(stateHash, 0, 0f);
+        }
+
+        private string ResolveAnimatorStateName(string animationName)
+        {
+            if (TryGetAnimatorStateHash(animationName, out _))
+            {
+                return animationName;
+            }
+
+            if (animationName == AnimationName.Lift)
+            {
+                if (TryGetAnimatorStateHash("Drag_Start", out _))
+                {
+                    return "Drag_Start";
+                }
+
+                if (TryGetAnimatorStateHash("Drag_Loop", out _))
+                {
+                    return "Drag_Loop";
+                }
+            }
+
+            if (animationName == AnimationName.DragLoop && TryGetAnimatorStateHash("Drag_Loop", out _))
+            {
+                return "Drag_Loop";
+            }
+
+            if (animationName == AnimationName.Drop && TryGetAnimatorStateHash("Drag_End", out _))
+            {
+                return "Drag_End";
+            }
+
+            return animationName;
+        }
+
+        private bool TryGetAnimatorStateHash(string stateName, out int stateHash)
+        {
+            stateHash = Animator.StringToHash(stateName);
+            if (_animator.HasState(0, stateHash))
+            {
+                return true;
+            }
+
+            stateHash = Animator.StringToHash($"Base Layer.{stateName}");
+            return _animator.HasState(0, stateHash);
         }
     }
 }

@@ -6,7 +6,8 @@
         "NewDiNoLock.Core",
         "NewDiNoLock.Rendering",
         "NewDiNoLock.System",
-        "NewDiNoLock.Bootstrap"
+        "NewDiNoLock.Bootstrap",
+        "NewDiNoLock.Window"
     ],
     "includePlatforms": [
         "Editor"

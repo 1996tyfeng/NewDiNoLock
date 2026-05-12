@@ -1,0 +1,19 @@
+{
+    "name": "NewDiNoLock.UI",
+    "rootNamespace": "NewDiNoLock.UI",
+    "references": [
+        "NewDiNoLock.Core",
+        "NewDiNoLock.System",
+        "NewDiNoLock.Window",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

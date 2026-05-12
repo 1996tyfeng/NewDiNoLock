@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!74 &7400000
 AnimationClip:
@@ -31,7 +31,7 @@ AnimationClip:
     - time: 0.5
       value: {fileID: 1829938835, guid: 8777c8ceb8f3f8545b11baad3d09573d, type: 3}
     attribute: m_Sprite
-    path: 
+    path: Sprite
     classID: 212
     script: {fileID: 0}
     flags: 2

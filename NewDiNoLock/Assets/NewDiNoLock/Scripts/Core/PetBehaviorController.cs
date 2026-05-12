@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NewDiNoLock.Infrastructure;
 using NewDiNoLock.Rendering;
 using UnityEngine;
@@ -17,6 +18,10 @@ namespace NewDiNoLock.Core
         private IPetAnimationPlayer _animationPlayer;
         private PetStateMachine _stateMachine;
         private IDisposable _stateChangedSubscription;
+        private Coroutine _dragAnimationRoutine;
+
+        private const float DragStartDuration = 0.6f;
+        private const float DragEndDuration = 0.4f;
 
         public PetState CurrentState => _stateMachine?.CurrentState ?? PetState.Idle;
 
@@ -42,6 +47,7 @@ namespace NewDiNoLock.Core
         {
             _stateChangedSubscription?.Dispose();
             _stateChangedSubscription = null;
+            StopDragAnimationRoutine();
         }
 
         public bool RequestWalk(string reason = null)
@@ -77,6 +83,11 @@ namespace NewDiNoLock.Core
         public bool EndDrag(string reason = null)
         {
             return _stateMachine.TryExitState(PetState.Dragged, PetState.Idle, false, reason);
+        }
+
+        public bool EndWalk(string reason = null)
+        {
+            return _stateMachine.TryExitState(PetState.Walk, PetState.Idle, false, reason);
         }
 
         public bool EndInteraction(string reason = null)
@@ -131,7 +142,7 @@ namespace NewDiNoLock.Core
                 return serializedAnimationPlayer;
             }
 
-            var behaviours = GetComponents<MonoBehaviour>();
+            var behaviours = GetComponentsInChildren<MonoBehaviour>(true);
             for (var index = 0; index < behaviours.Length; index++)
             {
                 if (behaviours[index] is IPetAnimationPlayer animationPlayer)
@@ -145,6 +156,19 @@ namespace NewDiNoLock.Core
 
         private void OnPetStateChanged(PetStateChangedEvent eventData)
         {
+            if (eventData.CurrentState == PetState.Dragged)
+            {
+                PlayDragStartThenLoop();
+                return;
+            }
+
+            if (eventData.PreviousState == PetState.Dragged && eventData.CurrentState == PetState.Idle)
+            {
+                PlayDragEndThenIdle();
+                return;
+            }
+
+            StopDragAnimationRoutine();
             PlayAnimationForState(eventData.CurrentState);
         }
 
@@ -164,7 +188,7 @@ namespace NewDiNoLock.Core
                 case PetState.Walk:
                     return AnimationName.Walk;
                 case PetState.Dragged:
-                    return AnimationName.Lift;
+                    return AnimationName.DragLoop;
                 case PetState.Interact:
                     return AnimationName.Click;
                 case PetState.Notify:
@@ -176,6 +200,55 @@ namespace NewDiNoLock.Core
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, "Unsupported pet state.");
             }
+        }
+
+        private void PlayDragStartThenLoop()
+        {
+            StopDragAnimationRoutine();
+            _dragAnimationRoutine = StartCoroutine(DragStartThenLoopRoutine());
+        }
+
+        private IEnumerator DragStartThenLoopRoutine()
+        {
+            _animationPlayer.Play(AnimationName.Lift, false);
+            yield return new WaitForSeconds(DragStartDuration);
+
+            if (CurrentState == PetState.Dragged)
+            {
+                _animationPlayer.Play(AnimationName.DragLoop, true);
+            }
+
+            _dragAnimationRoutine = null;
+        }
+
+        private void PlayDragEndThenIdle()
+        {
+            StopDragAnimationRoutine();
+            _dragAnimationRoutine = StartCoroutine(DragEndThenIdleRoutine());
+        }
+
+        private IEnumerator DragEndThenIdleRoutine()
+        {
+            _animationPlayer.Play(AnimationName.Drop, false);
+            yield return new WaitForSeconds(DragEndDuration);
+
+            if (CurrentState == PetState.Idle)
+            {
+                _animationPlayer.Play(AnimationName.Idle, true);
+            }
+
+            _dragAnimationRoutine = null;
+        }
+
+        private void StopDragAnimationRoutine()
+        {
+            if (_dragAnimationRoutine == null)
+            {
+                return;
+            }
+
+            StopCoroutine(_dragAnimationRoutine);
+            _dragAnimationRoutine = null;
         }
 
         private sealed class UnityLoggerAdapter : ILogger

@@ -51,7 +51,10 @@ namespace NewDiNoLock.Core
             var requestedPriority = ResolvePriority(requestedState, isHighPriorityNotify);
             if (requestedState == CurrentState && requestedPriority == CurrentPriority)
             {
-                return false;
+                if (!CanRestartCurrentState(requestedState))
+                {
+                    return false;
+                }
             }
 
             if (requestedPriority < CurrentPriority)
@@ -72,6 +75,11 @@ namespace NewDiNoLock.Core
             _logger.Debug($"Pet state changed: {previousState} -> {nextState}. Priority: {nextPriority}. Reason: {reason ?? "n/a"}");
             _eventBus.Publish(new PetStateChangedEvent(previousState, nextState, nextPriority, reason));
             return true;
+        }
+
+        private static bool CanRestartCurrentState(PetState state)
+        {
+            return state == PetState.Interact;
         }
 
         private static PetActionPriority ResolvePriority(PetState state, bool isHighPriorityNotify)

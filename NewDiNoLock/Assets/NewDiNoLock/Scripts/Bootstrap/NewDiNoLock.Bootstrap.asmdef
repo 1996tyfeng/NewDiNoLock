@@ -3,7 +3,10 @@
     "rootNamespace": "NewDiNoLock.Bootstrap",
     "references": [
         "NewDiNoLock.Infrastructure",
-        "NewDiNoLock.System"
+        "NewDiNoLock.System",
+        "NewDiNoLock.Window",
+        "NewDiNoLock.Core",
+        "NewDiNoLock.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

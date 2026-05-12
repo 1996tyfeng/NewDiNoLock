@@ -69,6 +69,22 @@ namespace NewDiNoLock.Tests.EditMode
         }
 
         [Test]
+        public void TryRequestState_WhenCurrentStateIsInteract_AllowsInteractRestart()
+        {
+            var eventBus = new EventBus();
+            var stateMachine = CreateStateMachine(eventBus);
+            var eventCount = 0;
+            eventBus.Subscribe<PetStateChangedEvent>(_ => eventCount++);
+            stateMachine.TryRequestState(PetState.Interact, "first click");
+
+            var changed = stateMachine.TryRequestState(PetState.Interact, "second click");
+
+            Assert.IsTrue(changed);
+            Assert.AreEqual(PetState.Interact, stateMachine.CurrentState);
+            Assert.AreEqual(2, eventCount);
+        }
+
+        [Test]
         public void TryRequestNotify_WhenHighPriority_InterruptsInteractButNotDragged()
         {
             var stateMachine = CreateStateMachine();
